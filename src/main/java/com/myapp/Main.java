@@ -19,7 +19,7 @@ public class Main {
                     2 - отобразить весь список задач
                     3 - отметить выполнение
                     4 - удалить задачу
-                    е - выйти из приложения
+                    е - закрыть приложение
                     """);
             switch (in.nextLine()){
                 case "1":
@@ -28,12 +28,15 @@ public class Main {
                     id++;
                     break;
                 case "2":
+                    // Получить все задачи
                     taskController.listTasks();
                     break;
                 case "3":
+                    // Выполнение задачи
                     taskController.completeTask();
                     break;
                 case "4":
+                    // Удаление задачи
                     taskController.deleteTask();
                     break;
                 case "e":

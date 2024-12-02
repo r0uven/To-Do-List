@@ -2,60 +2,45 @@ package com.myapp.controller;
 
 import com.myapp.model.TaskModel;
 import com.myapp.sevice.TaskService;
+import com.myapp.sevice.InputService;
 
-import java.util.Scanner;
+import java.util.Date;
 
 public class TaskController {
-    private TaskService taskService;
-    private Scanner scanner;
+    private final TaskService taskService = new TaskService();
+    private final InputService inputService = new InputService();  // Новый сервис для обработки ввода
 
-    public TaskController() {
-        this.taskService = new TaskService();
-        this.scanner = new Scanner(System.in);
-    }
-
-    // ИЗБЫТОЧНО НО МОЖЕТ ПРИГОДИТСЯ ПРИ ПОЯВЛЕНИИ ДРУГИХ ПОЛЕЙ
-    // Универсальный метод для ввода значений
-    public Object inputValue(String prompt, Class<?> type) {
-        System.out.print(prompt);
-        String input = scanner.nextLine();  // Ввод всех данных как строки
-
-        // Преобразуем строку в нужный тип данных
-        if (type == String.class) {
-            return input;  // Если это строка, просто возвращаем введённую строку
-        } else if (type == int.class) {
-            return Integer.parseInt(input);  // Преобразование строки в целое число
-        } else {
-            return null;  // Для других типов можно добавить обработку
-        }
-    }
-
-
+    // Метод для создания задачи
     public void createTask(int id) {
-        String title = (String) inputValue("Enter task title: ", String.class);  // Ввод строки
-        String description = (String) inputValue("Enter task description: ", String.class);  // Ввод строки
+        String title = inputService.getString("Введите название задачи: ");
+        String description = inputService.getString("Введите описание задачи: ");
+        Date dueDate = inputService.getDate("Введите дату в формате dd.MM.yyyy: ");
+        int priority = inputService.getInt("Введите приоритет задачи: ");
 
-        // Создаём и возвращаем объект TaskModel
-        taskService.addTask(new TaskModel(id, title, description));
+        taskService.addTask(new TaskModel(id, title, description, dueDate, priority));
     }
 
+    // Метод для вывода всех задач
     public void listTasks() {
         for (TaskModel task : taskService.getAllTasks()) {
+
             System.out.println(task.getTaskInfo());
         }
+        System.out.println();
     }
 
+    // Метод для завершения задачи
     public void completeTask() {
-        System.out.print("Enter task index to mark as complete: ");
-        int index = scanner.nextInt();
-        taskService.markTaskAsComplete(index);
-        System.out.println("TaskModel marked as complete!");
+        int taskId = inputService.getInt("Введите ID задачи для завершения: ");
+        taskService.markTaskAsComplete(taskId);
+        System.out.println("Задача с ID " + taskId + " завершена!\n");
     }
+
+    // Метод для удаления задачи
     public void deleteTask() {
-        System.out.print("Enter task index to mark as complete: ");
-        int index = scanner.nextInt();
-        taskService.deleteTask(index);
-        System.out.println("Task deleted!");
+        int taskId = inputService.getInt("Введите ID задачи для удаления: ");
+        taskService.deleteTask(taskId);
+        System.out.println("Задача с ID " + taskId + " удалена!\n");
     }
 
 }
