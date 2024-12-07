@@ -1,5 +1,6 @@
 package com.myapp.sevice;
 
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,7 +11,7 @@ public class InputService {
     private final Scanner scanner;
 
     public InputService() {
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in,  StandardCharsets.UTF_8);
     }
     public String getString(String prompt) {
         System.out.print(prompt);
