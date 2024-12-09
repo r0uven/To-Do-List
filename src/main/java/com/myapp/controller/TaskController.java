@@ -11,13 +11,13 @@ public class TaskController {
     private final InputService inputService = new InputService();  // Новый сервис для обработки ввода
 
     // Метод для создания задачи
-    public void createTask(int id) {
+    public void createTask() {
         String title = inputService.getString("Введите название задачи: ");
         String description = inputService.getString("Введите описание задачи: ");
         Date dueDate = inputService.getDate("Введите дату в формате dd.MM.yyyy: ");
         int priority = inputService.getInt("Введите приоритет задачи: ");
 
-        taskService.addTask(new TaskModel(id, title, description, dueDate, priority));
+        taskService.addTask(title, description, dueDate, priority);
     }
 
     // Метод для вывода всех задач

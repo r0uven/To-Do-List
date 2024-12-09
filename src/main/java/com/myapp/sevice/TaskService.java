@@ -5,6 +5,7 @@ import com.myapp.util.JsonSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TaskService {
@@ -38,13 +39,21 @@ public class TaskService {
         }
     }
 
-    public void addTask(TaskModel task) {
-        tasks.add(task);  // Добавляем новую задачу в список
+    public void addTask(String title, String description, Date dueDate, int priority) {
+        int id;
+        if (tasks.isEmpty()){
+            id = 1;
+        }else {
+            id = tasks.getLast().getId() + 1;
+        }
+        
         System.out.println("Задача добавлена");
-        System.out.println("Id - " + task.getId());
-        System.out.println("Название задачи - " + task.getTitle());
-        System.out.println("Описание задачи - " + task.getDescription());
-        System.out.println("Выполнение задачи - " + task.getCompleted() + "\n");
+        System.out.println("Id - " + id);
+        System.out.println("Название задачи - " + title);
+        System.out.println("Описание задачи - " + description);
+        System.out.println("Срок выполнения задачи - " + dueDate + "\n");
+
+        tasks.add(new TaskModel(id, title, description, dueDate, priority));  // Добавляем новую задачу в список
 
         Serialize(tasks);
     }
